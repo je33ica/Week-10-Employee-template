@@ -17,22 +17,6 @@ const employeeQuestions = [
       message: "Please enter your name",
     },
     {
-      type: "checkbox",
-      message: "Please select a team members role?",
-      name: "role",
-      choices: [
-        {
-          name: "Manager",
-        },
-        {
-          name: "Engineer",
-        },
-        {
-          name: "Intern",
-        },
-      ],
-    },
-    {
       type: "input",
       name: "email",
       message: "Please enter your email adress",
@@ -41,7 +25,24 @@ const employeeQuestions = [
       type: "input",
       name: "id",
       message: "Please enter your ID",
-    }];
+    },
+    {
+        type: "checkbox",
+        message: "Please select a team members role?",
+        name: "role",
+        choices: [
+          {
+            name: "Manager",
+          },
+          {
+            name: "Engineer",
+          },
+          {
+            name: "Intern",
+          },
+        ],
+      }
+];
 
 
 const managerQuestions = [
@@ -66,21 +67,37 @@ const internQuestions = [
 
 }]
 
-var inquirer = require("inquirer");
-inquirer
-  .prompt([
-    /* Pass your questions in here */
-  ])
-  .then((answers) => {
-    // Use user feedback for... whatever!!
-  })
-  .catch((error) => {
-    if (error.isTtyError) {
-      // Prompt couldn't be rendered in the current environment
-    } else {
-      // Something else went wrong
-    }
-  });
+function addNewMember(){
+    inquirer.prompt(employeeQuestions)
+    .when((response) => {
+        if (response.role === "Manager"){
+            return (console.log( managerQuestions))
+        };
+        if (value.role === "Engineer"){
+            return (console.log(engineerQuestions));
+        };
+        if (value.role === "Intern"){
+            return (console.log(internQuestions));
+        }}
+        )
+}
+ addNewMember()
+
+// var inquirer = require("inquirer");
+// inquirer
+//   .prompt([
+//     /* Pass your questions in here */
+//   ])
+//   .then((answers) => {
+//     // Use user feedback for... whatever!!
+//   })
+//   .catch((error) => {
+//     if (error.isTtyError) {
+//       // Prompt couldn't be rendered in the current environment
+//     } else {
+//       // Something else went wrong
+//     }
+//   });
 
 // Write code to use inquirer to gather information about the development team members,
 // and to create objects for each team member (using the correct classes as blueprints!)
