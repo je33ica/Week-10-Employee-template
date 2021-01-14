@@ -10,9 +10,8 @@ const outputPath = path.join(OUTPUT_DIR, "team.html");
 
 const render = require("./lib/htmlRenderer");
 
-function addMember() {
-  inquirer.prompt[
-    ({
+const employeeQuestions = [
+    {
       type: "input",
       name: "name",
       message: "Please enter your name",
@@ -42,9 +41,30 @@ function addMember() {
       type: "input",
       name: "id",
       message: "Please enter your ID",
-    })
-  ];
-}
+    }];
+
+
+const managerQuestions = [
+    {
+        type: "input",
+        name: "officeNumber",
+        message: "Please enter your office number",
+      
+
+}];
+const engineerQuestions = [
+    {
+    type: "input",
+        name: "github",
+        message: "Please enter your gihub profile",
+}];
+const internQuestions = [
+    {
+        type: "input",
+        name: "school",
+        message: "Please enter your school name",
+
+}]
 
 var inquirer = require("inquirer");
 inquirer
