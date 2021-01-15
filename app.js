@@ -10,97 +10,104 @@ const outputPath = path.join(OUTPUT_DIR, "team.html");
 
 const render = require("./lib/htmlRenderer");
 
-const employeeQuestions = [
+// The project must prompt the user to build an engineering team. An engineering
+// team consists of a manager, and any number of engineers and interns.
+// Ask for manager first so at leat one team memeber exists
+
+addManager() => {
+    inquirer.prompt()
+employeeQuestions()
+    const managerQuestions = [
     {
       type: "input",
-      name: "name",
-      message: "Please enter your name",
+      name: "officeNumber",
+      message: "Please enter your office number",
     },
-    {
-      type: "input",
-      name: "email",
-      message: "Please enter your email adress",
-    },
-    {
-      type: "input",
-      name: "id",
-      message: "Please enter your ID",
-    },
-    {
-        type: "checkbox",
-        message: "Please select a team members role?",
-        name: "role",
-        choices: [
-          {
-            name: "Manager",
-          },
-          {
-            name: "Engineer",
-          },
-          {
-            name: "Intern",
-          },
-        ],
-      }
-];
+  ];
 
 
-const managerQuestions = [
-    {
-        type: "input",
-        name: "officeNumber",
-        message: "Please enter your office number",
-      
-
-}];
-const engineerQuestions = [
-    {
-    type: "input",
-        name: "github",
-        message: "Please enter your gihub profile",
-}];
-const internQuestions = [
-    {
-        type: "input",
-        name: "school",
-        message: "Please enter your school name",
-
-}]
-// I want the questions to start with addNewMember  questions and then depending on response 
-// to the role question give them the corresponding set of questions 
-function addNewMember(){
-    inquirer.prompt(employeeQuestions)
-    .when((response) => {
-        if (response.role === "Manager"){
-            (console.log( managerQuestions))
-        }
-        else if (value.role === "Engineer"){
-             (console.log(engineerQuestions));
-        }
-        else (value.role === "Intern");{
-            return (console.log(internQuestions));
-        }}
-        )
 }
 
- addNewMember()
- 
+const employeeQuestions = [
+  {
+    type: "input",
+    name: "name",
+    message: "Please enter your name",
+  },
+  {
+    type: "input",
+    name: "email",
+    message: "Please enter your email adress",
+  },
+  {
+    type: "input",
+    name: "id",
+    message: "Please enter your ID",
+  },
+  {
+    type: "list",
+    message: "Would you like to add a member to the team ?",
+    name: "role",
+    choices: [
+       "Manager",
+      "Engineer",
+       "Intern",
+       "Finish"
+      
+    ],
+  },
+];
+
+// I want the questions to start with addNewMember  questions and then depending on response
+// to the role question give them the corresponding set of questions
+function addNewMember() {
+  inquirer.prompt(employeeQuestions)
+  .when((response) => {
+    if (response.role === "Manager") {
+      managerQuestions();
+    } else if (value.role === "Engineer") {
+      engineerQuestions();
+    } else value.role === "Intern";
+    {
+      internQuestions();
+    }
+  });
+}
+
+addNewMember();
+
+
+  const engineerQuestions = [
+    {
+      type: "input",
+      name: "github",
+      message: "Please enter your gihub profile",
+    },
+  ];
+  const internQuestions = [
+    {
+      type: "input",
+      name: "school",
+      message: "Please enter your school name",
+    },
+  ];
+
+
 // function addNewMember(){
 //     inquirer.prompt(employeeQuestions)
 //     .when((response) => {
 //         switch response.role === "Manager":
 //             managerQuestions
 //            break
-        
+
 //         switch (value.role === "Engineer"){
 //             (engineerQuestions)
-        
+
 //         else (value.role === "Intern"){
 //             return (console.log(internQuestions));
 //         }}
 //         )
 // }
-
 
 // var inquirer = require("inquirer");
 // inquirer
