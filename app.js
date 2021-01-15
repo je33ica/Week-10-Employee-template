@@ -9,88 +9,115 @@ const OUTPUT_DIR = path.resolve(__dirname, "output");
 const outputPath = path.join(OUTPUT_DIR, "team.html");
 
 const render = require("./lib/htmlRenderer");
+const { notDeepEqual } = require("assert");
 
-// The project must prompt the user to build an engineering team. An engineering
-// team consists of a manager, and any number of engineers and interns.
-// Ask for manager first so at leat one team memeber exists
+// start - create newTeam starts with 
+// add manager - (adds office num )
+//                 + employeeQuestions -> create HTMl manager
+//                 
+//                 then adds team member
+//                 or not
 
-addManager() => {
-    inquirer.prompt()
-employeeQuestions()
-    const managerQuestions = [
-    {
-      type: "input",
-      name: "officeNumber",
-      message: "Please enter your office number",
-    },
-  ];
+// adds team member
+//                 + employeeQuestions  
+//                 adds different q's depending on role
+//                 create HTML role
+//                 then adds team member
+//                 or not              
 
-
+function addFirstManager() {
+    inquirer.prompt([
+        {
+            type: "Input",
+            name: "officeNumber",
+            message: "As a manger, what is your office number?",
+        },
+        {
+            employeeQuestions()
+        },
+    ])
 }
 
-const employeeQuestions = [
-  {
-    type: "input",
-    name: "name",
-    message: "Please enter your name",
-  },
-  {
-    type: "input",
-    name: "email",
-    message: "Please enter your email adress",
-  },
-  {
-    type: "input",
-    name: "id",
-    message: "Please enter your ID",
-  },
-  {
-    type: "list",
-    message: "Would you like to add a member to the team ?",
-    name: "role",
-    choices: [
-       "Manager",
-      "Engineer",
-       "Intern",
-       "Finish"
-      
-    ],
-  },
-];
 
-// I want the questions to start with addNewMember  questions and then depending on response
-// to the role question give them the corresponding set of questions
-function addNewMember() {
-  inquirer.prompt(employeeQuestions)
-  .when((response) => {
+function askAllEmployees() {
+
+    inquirer.prompt([
+        {
+            type: "input",
+            name: "name",
+            message: "Please enter your name",
+        },
+        {
+            type: "input",
+            name: "email",
+            message: "Please enter your email adress",
+        },
+        {
+            type: "input",
+            name: "id",
+            message: "Please enter your ID",
+        },
+        function addNewMember() {
+            inquirer.prompt([
+                {
+                    type: "list",
+                    message: "Would you like to add a member to the team ?",
+                    name: "role",
+                    choices: [
+                        "Manager",
+                        "Engineer",
+                        "Intern",
+                        "No more members"
+
+                    ]
+                },
+            ])
+        }
+    ])
+
+}
+.when((response) => {
     if (response.role === "Manager") {
-      managerQuestions();
-    } else if (value.role === "Engineer") {
-      engineerQuestions();
-    } else value.role === "Intern";
-    {
-      internQuestions();
+        managerQuestions();
     }
-  });
+    else if (response.role === "Engineer") {
+        engineerQuestions();
+    }
+    else if (response.role === "Intern") {
+        internQuestions();
+    }
+    else (response.role === "No more members"); {
+
+    }
+});
+function managerQuestions() {
+
+    inquirer.prompt([
+        {
+            type: "input",
+            name: "officeNumber",
+            message: "Please enter your office number",
+        },])
+        .then(res)
 }
 
-addNewMember();
+function engineerQuestions() {
+    inquirer.prompt([
+        {
+            type: "input",
+            name: "github",
+            message: "Please enter your gihub profile",
+        },])
+}
 
-
-  const engineerQuestions = [
-    {
-      type: "input",
-      name: "github",
-      message: "Please enter your gihub profile",
-    },
-  ];
-  const internQuestions = [
-    {
-      type: "input",
-      name: "school",
-      message: "Please enter your school name",
-    },
-  ];
+function internQuestions() {
+    inquirer.prompt([
+        {
+            type: "input",
+            name: "school",
+            message: "Please enter your school name",
+        },])
+}
 
 
 // function addNewMember(){
