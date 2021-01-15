@@ -11,6 +11,7 @@ const outputPath = path.join(OUTPUT_DIR, "team.html");
 const render = require("./lib/htmlRenderer");
 const { notDeepEqual } = require("assert");
 
+// asl coloum if you can have 2 inquire prompts
 // start - create newTeam starts with 
 // add manager - (adds office num )
 //                 + employeeQuestions -> create HTMl manager
@@ -25,56 +26,72 @@ const { notDeepEqual } = require("assert");
 //                 then adds team member
 //                 or not              
 
-function addFirstManager() {
+// all employers will be asked the same set of questions 
+const newTeam = [];
+
+const askAllEmployees = [{
+    type: "input",
+    name: "name",
+    message: "Please enter the name of the employee :",
+},
+{
+    type: "input",
+    name: "email",
+    message: "Please enter the employee\'s email :",
+},
+{
+    type: "input",
+    name: "id",
+    message: "Please enter the employee\'s id number :",
+}];
+
+const managerQuestions = [
+    ...askAllEmployees,
+    {
+        type: "input",
+        name: "officeNumber",
+        message: "Please enter your office number",
+    }
+];
+
+const engineerQuestions = [
+    ...askAllEmployees,
+    {
+        type: "input",
+        name: "github",
+        message: "Please enter your gihub profile",
+    }
+];
+
+const internQuestions = [
+    ...askAllEmployees,
+    {
+        type: "input",
+        name: "school",
+        message: "Please enter your school name",
+    }
+];
+
+
+
+
+
+
+function addNewMember() {
     inquirer.prompt([
         {
-            type: "Input",
-            name: "officeNumber",
-            message: "As a manger, what is your office number?",
-        },
-        {
-            employeeQuestions()
+            type: "list",
+            message: "Would you like to add a member to the team ?",
+            name: "role",
+            choices: [
+                "Manager",
+                "Engineer",
+                "Intern",
+                "No more members"
+
+            ]
         },
     ])
-}
-
-
-function askAllEmployees() {
-
-    inquirer.prompt([
-        {
-            type: "input",
-            name: "name",
-            message: "Please enter your name",
-        },
-        {
-            type: "input",
-            name: "email",
-            message: "Please enter your email adress",
-        },
-        {
-            type: "input",
-            name: "id",
-            message: "Please enter your ID",
-        },
-        function addNewMember() {
-            inquirer.prompt([
-                {
-                    type: "list",
-                    message: "Would you like to add a member to the team ?",
-                    name: "role",
-                    choices: [
-                        "Manager",
-                        "Engineer",
-                        "Intern",
-                        "No more members"
-
-                    ]
-                },
-            ])
-        }
-    ])
-
 }
 .when((response) => {
     if (response.role === "Manager") {
@@ -90,35 +107,6 @@ function askAllEmployees() {
 
     }
 });
-function managerQuestions() {
-
-    inquirer.prompt([
-        {
-            type: "input",
-            name: "officeNumber",
-            message: "Please enter your office number",
-        },])
-        .then(res)
-}
-
-function engineerQuestions() {
-    inquirer.prompt([
-        {
-            type: "input",
-            name: "github",
-            message: "Please enter your gihub profile",
-        },])
-}
-
-function internQuestions() {
-    inquirer.prompt([
-        {
-            type: "input",
-            name: "school",
-            message: "Please enter your school name",
-        },])
-}
-
 
 // function addNewMember(){
 //     inquirer.prompt(employeeQuestions)
