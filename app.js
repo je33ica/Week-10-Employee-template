@@ -72,17 +72,35 @@ function addNewMember(){
     inquirer.prompt(employeeQuestions)
     .when((response) => {
         if (response.role === "Manager"){
-            return (console.log( managerQuestions))
-        };
-        if (value.role === "Engineer"){
-            return (console.log(engineerQuestions));
-        };
-        if (value.role === "Intern"){
+            (console.log( managerQuestions))
+        }
+        else if (value.role === "Engineer"){
+             (console.log(engineerQuestions));
+        }
+        else (value.role === "Intern");{
             return (console.log(internQuestions));
         }}
         )
 }
+
  addNewMember()
+ 
+// function addNewMember(){
+//     inquirer.prompt(employeeQuestions)
+//     .when((response) => {
+//         switch response.role === "Manager":
+//             managerQuestions
+//            break
+        
+//         switch (value.role === "Engineer"){
+//             (engineerQuestions)
+        
+//         else (value.role === "Intern"){
+//             return (console.log(internQuestions));
+//         }}
+//         )
+// }
+
 
 // var inquirer = require("inquirer");
 // inquirer
