@@ -36,14 +36,15 @@ const askAllEmployees = [{
 },
 {
     type: "input",
-    name: "email",
-    message: "Please enter the employee\'s email :",
+    name: "id",
+    message: "Please enter the employee\'s id number :",
 },
 {
     type: "input",
-    name: "id",
-    message: "Please enter the employee\'s id number :",
-}];
+    name: "email",
+    message: "Please enter the employee\'s email :",
+},
+];
 
 const managerQuestions = [
     ...askAllEmployees,
@@ -59,7 +60,7 @@ const engineerQuestions = [
     {
         type: "input",
         name: "github",
-        message: "Please enter your gihub profile",
+        message: "Please enter your github profile",
     }
 ];
 
@@ -73,7 +74,11 @@ const internQuestions = [
 ];
 
 
-
+// all teams start with a manager 
+inquirer.prompt(managerQuestions)
+.then(function(response) {
+    const manager = new Manager(response.name, response.id, response.email,response.officeNumber )
+})
 
 
 
