@@ -66,7 +66,8 @@ const internQuestions = [
         message: "Please enter your school name",
 
 }]
-
+// I want the questions to start with addNewMember  questions and then depending on response 
+// to the role question give them the corresponding set of questions 
 function addNewMember(){
     inquirer.prompt(employeeQuestions)
     .when((response) => {
