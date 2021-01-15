@@ -10,25 +10,11 @@ const outputPath = path.join(OUTPUT_DIR, "team.html");
 
 const render = require("./lib/htmlRenderer");
 const { notDeepEqual } = require("assert");
+            
 
-// asl coloum if you can have 2 inquire prompts
-// start - create newTeam starts with 
-// add manager - (adds office num )
-//                 + employeeQuestions -> create HTMl manager
-//                 
-//                 then adds team member
-//                 or not
-
-// adds team member
-//                 + employeeQuestions  
-//                 adds different q's depending on role
-//                 create HTML role
-//                 then adds team member
-//                 or not              
-
-// all employers will be asked the same set of questions 
 const newTeam = [];
 
+// all employers will be asked the same set of questions 
 const askAllEmployees = [{
     type: "input",
     name: "name",
@@ -72,17 +58,50 @@ const internQuestions = [
         message: "Please enter your school name",
     }
 ];
+const newEmployeeRole = [
+    {
+        type: "list",
+        message: "Would you like to add a member to the team ?",
+        name: "role",
+        choices: [
+            "Manager",
+            "Engineer",
+            "Intern",
+            "No more members"
+
+        ]
+    }
+];
 
 
-// all teams start with a manager 
+// all teams start with a manager as a minimum
 inquirer.prompt(managerQuestions)
 .then(function(response) {
-    const manager = new Manager(response.name, response.id, response.email,response.officeNumber )
+    const manager = new Manager(response.name, response.id, response.email, response.officeNumber);
+    newTeam.push(manager);
+    addNewMember();
 })
 
 
 
 function addNewMember() {
+    inquirer.prompt (...newEmployeeRole)
+    .then((response) => {
+        
+        if (response.role === "Engineer") {
+            newEngineer();
+        }
+        else if (response.role === "Intern") {
+            newIntern();
+        }
+        else (response.role === "No more members"); {
+    
+        }
+    });
+
+
+
+
     inquirer.prompt([
         {
             type: "list",
