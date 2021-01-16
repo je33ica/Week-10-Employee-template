@@ -9,160 +9,124 @@ const OUTPUT_DIR = path.resolve(__dirname, "output");
 const outputPath = path.join(OUTPUT_DIR, "team.html");
 
 const render = require("./lib/htmlRenderer");
-const { notDeepEqual } = require("assert");
-            
 
+// empty array for team member to be added
 const newTeam = [];
 
-// all employers will be asked the same set of questions 
-const askAllEmployees = [{
+// all employers will be asked the same set of questions
+const askAllEmployees = [
+  {
     type: "input",
     name: "name",
     message: "Please enter the name of the employee :",
-},
-{
+  },
+  {
     type: "input",
     name: "id",
-    message: "Please enter the employee\'s id number :",
-},
-{
+    message: "Please enter the employee's id number :",
+  },
+  {
     type: "input",
     name: "email",
-    message: "Please enter the employee\'s email :",
-},
+    message: "Please enter the employee's email :",
+  },
 ];
-
 const managerQuestions = [
-    ...askAllEmployees,
-    {
-        type: "input",
-        name: "officeNumber",
-        message: "Please enter your office number",
-    }
+  ...askAllEmployees,
+  {
+    type: "input",
+    name: "officeNumber",
+    message: "Please enter your office number",
+  },
 ];
-
 const engineerQuestions = [
-    ...askAllEmployees,
-    {
-        type: "input",
-        name: "github",
-        message: "Please enter your github profile",
-    }
+  ...askAllEmployees,
+  {
+    type: "input",
+    name: "github",
+    message: "Please enter your github profile",
+  },
 ];
-
 const internQuestions = [
-    ...askAllEmployees,
-    {
-        type: "input",
-        name: "school",
-        message: "Please enter your school name",
-    }
+  ...askAllEmployees,
+  {
+    type: "input",
+    name: "school",
+    message: "Please enter your school name",
+  },
 ];
 const newEmployeeRole = [
-    {
-        type: "list",
-        message: "Would you like to add a member to the team ?",
-        name: "role",
-        choices: [
-            "Manager",
-            "Engineer",
-            "Intern",
-            "No more members"
-
-        ]
-    }
+  {
+    type: "list",
+    message: "Would you like to add a member to the team ?",
+    name: "role",
+    choices: ["Manager", "Engineer", "Intern", "No more members"],
+  },
 ];
 
-
 // all teams start with a manager as a minimum
-inquirer.prompt(managerQuestions)
-.then(function(response) {
-    const manager = new Manager(response.name, response.id, response.email, response.officeNumber);
-    newTeam.push(manager);
-    addNewMember();
-})
-
-
-
-function addNewMember() {
-    inquirer.prompt (...newEmployeeRole)
-    .then((response) => {
-        
-        if (response.role === "Engineer") {
-            newEngineer();
-        }
-        else if (response.role === "Intern") {
-            newIntern();
-        }
-        else (response.role === "No more members"); {
-    
-        }
-    });
-
-
-
-
-    inquirer.prompt([
-        {
-            type: "list",
-            message: "Would you like to add a member to the team ?",
-            name: "role",
-            choices: [
-                "Manager",
-                "Engineer",
-                "Intern",
-                "No more members"
-
-            ]
-        },
-    ])
-}
-.when((response) => {
-    if (response.role === "Manager") {
-        managerQuestions();
-    }
-    else if (response.role === "Engineer") {
-        engineerQuestions();
-    }
-    else if (response.role === "Intern") {
-        internQuestions();
-    }
-    else (response.role === "No more members"); {
-
-    }
+inquirer.prompt(managerQuestions).then(function (response) {
+  const manager = new Manager(
+    response.name,
+    response.id,
+    response.email,
+    response.officeNumber
+  );
+  newTeam.push(manager);
+  addNewMember();
 });
 
-// function addNewMember(){
-//     inquirer.prompt(employeeQuestions)
-//     .when((response) => {
-//         switch response.role === "Manager":
-//             managerQuestions
-//            break
+//ask if any more team members are to be created 
+function addNewMember() {
+  inquirer.prompt(...newEmployeeRole).then((response) => {
+    if (response.role === "Engineer") {
+      newEngineer();
+    } else if (response.role === "Intern") {
+      newIntern();
+    } else (response.role === "No more members"); {
+        createTeam();
+    }
+  });
+}
 
-//         switch (value.role === "Engineer"){
-//             (engineerQuestions)
+//create new job roles using the classes to creat a new instance 
+function newEngineer() {
+  inquirer.prompt(engineerQuestions).then(function (response) {
+    const engineer = new Engineer(
+      response.name,
+      response.id,
+      response.email,
+      response.github
+    );
+    newTeam.push(engineer);
+    addNewMember();
+  });
+}
+function newIntern() {
+  inquirer.prompt(internQuestions).then(function (response) {
+    const intern = new Intern(
+      response.name,
+      response.id,
+      response.email,
+      response.school
+    );
+    newTeam.push(intern);
+    addNewMember();
+  });
+}
 
-//         else (value.role === "Intern"){
-//             return (console.log(internQuestions));
-//         }}
-//         )
-// }
 
-// var inquirer = require("inquirer");
-// inquirer
-//   .prompt([
-//     /* Pass your questions in here */
-//   ])
-//   .then((answers) => {
-//     // Use user feedback for... whatever!!
-//   })
-//   .catch((error) => {
-//     if (error.isTtyError) {
-//       // Prompt couldn't be rendered in the current environment
-//     } else {
-//       // Something else went wrong
-//     }
-//   });
+//  creates the file using fs synchronously
+
+function createTeam(){
+  if(fs.existsSync(OUTPUT_DIR) === false) {
+    fs.mkdirSync(OUTPUT_DIR)
+  }
+  fs.writeFileSync(outputPath,render (newTeam))
+
+}
+
+
 
 // Write code to use inquirer to gather information about the development team members,
 // and to create objects for each team member (using the correct classes as blueprints!)
