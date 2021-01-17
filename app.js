@@ -29,6 +29,14 @@ const askAllEmployees = [
     type: "input",
     name: "email",
     message: "Please enter the employee's email :",
+    validate: input => {
+      const emailValidation = input.match(/\S+@\S+\.\S+/);
+      if (emailValidation) return true;
+      else {
+        return "Please enter a valid email address "
+      }
+
+    },
   },
 ];
 const managerQuestions = [
@@ -84,7 +92,7 @@ function addNewMember() {
     } else if (response.role === "Intern") {
       newIntern();
     } else (response.role === "No more members"); {
-        createTeam();
+      createTeam();
     }
   });
 }
@@ -118,11 +126,11 @@ function newIntern() {
 
 //  creates the file using fs synchronously
 
-function createTeam(){
-  if(fs.existsSync(OUTPUT_DIR) === false) {
+function createTeam() {
+  if (fs.existsSync(OUTPUT_DIR) === false) {
     fs.mkdirSync(OUTPUT_DIR)
   }
-  fs.writeFileSync(outputPath,render (newTeam))
+  fs.writeFileSync(outputPath, render(newTeam))
 
 }
 
